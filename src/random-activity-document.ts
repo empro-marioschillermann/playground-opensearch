@@ -1,12 +1,7 @@
-import { Client } from "@opensearch-project/opensearch";
 import { v4 as uuidv4 } from "uuid";
-import { firstName, lastName, fullName } from "full-name-generator";
-import { LoremIpsum } from "lorem-ipsum";
 import { generateSlug } from "random-word-slugs";
-
-const client = new Client({
-  node: "http://localhost:9200",
-});
+import { LoremIpsum } from "lorem-ipsum";
+import { firstName, lastName } from "full-name-generator";
 
 const lorem = new LoremIpsum({
   sentencesPerParagraph: {
@@ -19,9 +14,7 @@ const lorem = new LoremIpsum({
   },
 });
 
-const index = "history_index"; // Replace with your index name
-
-function randomActivityDocument() {
+export function randomActivityDocument() {
   const tenantUuid = uuidv4();
   const entityUuid = uuidv4();
   const addressUuid = uuidv4();
@@ -116,15 +109,12 @@ function randomActivityDocument() {
   };
 }
 
-async function fillHistoryIndex(numberOfDocuments = 10000000) {
+export function randomActivityDocuments(
+  numberOfDocuments: number
+): Array<Object> {
+  const activityDocuments = [];
   for (let i = 0; i < numberOfDocuments; i++) {
-    const response = await client.index({
-      index,
-      body: randomActivityDocument(),
-    });
-
-    console.log(i + ". Document inserted");
+    activityDocuments.push(randomActivityDocument());
   }
+  return activityDocuments;
 }
-
-fillHistoryIndex();

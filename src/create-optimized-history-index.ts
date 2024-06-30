@@ -1,14 +1,13 @@
 import { Client } from "@opensearch-project/opensearch";
 
+const index = "optimized_history_index";
+const openSearchUrl = "http://localhost:9200";
+
 const client = new Client({
-  node: "http://localhost:9200", // Replace with your OpenSearch node URL
+  node: openSearchUrl,
 });
-const indexName = "history_index";
+
 const indexSettings = {
-  settings: {
-    number_of_shards: 1,
-    number_of_replicas: 0,
-  },
   mappings: {
     properties: {
       activityModel: {
@@ -87,13 +86,7 @@ const indexSettings = {
                 },
               },
               entityUuid: {
-                type: "text",
-                fields: {
-                  keyword: {
-                    type: "keyword",
-                    ignore_above: 256,
-                  },
-                },
+                type: "keyword",
               },
               firstName: {
                 type: "text",
@@ -225,13 +218,7 @@ const indexSettings = {
             type: "date",
           },
           entityUuid: {
-            type: "text",
-            fields: {
-              keyword: {
-                type: "keyword",
-                ignore_above: 256,
-              },
-            },
+            type: "keyword",
           },
           estates: {
             properties: {
@@ -254,13 +241,7 @@ const indexSettings = {
                 },
               },
               entityUuid: {
-                type: "text",
-                fields: {
-                  keyword: {
-                    type: "keyword",
-                    ignore_above: 256,
-                  },
-                },
+                type: "keyword",
               },
               offererMarketingKey: {
                 type: "text",
@@ -307,35 +288,17 @@ const indexSettings = {
             type: "boolean",
           },
           historyType: {
-            type: "text",
-            fields: {
-              keyword: {
-                type: "keyword",
-                ignore_above: 256,
-              },
-            },
+            type: "keyword",
           },
           metadata: {
             properties: {
               changedBy: {
                 properties: {
                   subsidiaryUuid: {
-                    type: "text",
-                    fields: {
-                      keyword: {
-                        type: "keyword",
-                        ignore_above: 256,
-                      },
-                    },
+                    type: "keyword",
                   },
                   userUuid: {
-                    type: "text",
-                    fields: {
-                      keyword: {
-                        type: "keyword",
-                        ignore_above: 256,
-                      },
-                    },
+                    type: "keyword",
                   },
                 },
               },
@@ -345,22 +308,10 @@ const indexSettings = {
               createdBy: {
                 properties: {
                   subsidiaryUuid: {
-                    type: "text",
-                    fields: {
-                      keyword: {
-                        type: "keyword",
-                        ignore_above: 256,
-                      },
-                    },
+                    type: "keyword",
                   },
                   userUuid: {
-                    type: "text",
-                    fields: {
-                      keyword: {
-                        type: "keyword",
-                        ignore_above: 256,
-                      },
-                    },
+                    type: "keyword",
                   },
                 },
               },
@@ -370,13 +321,7 @@ const indexSettings = {
               ownedBy: {
                 properties: {
                   groupUuid: {
-                    type: "text",
-                    fields: {
-                      keyword: {
-                        type: "keyword",
-                        ignore_above: 256,
-                      },
-                    },
+                    type: "keyword",
                   },
                   moreGroupUuids: {
                     type: "text",
@@ -397,22 +342,10 @@ const indexSettings = {
                     },
                   },
                   subsidiaryUuid: {
-                    type: "text",
-                    fields: {
-                      keyword: {
-                        type: "keyword",
-                        ignore_above: 256,
-                      },
-                    },
+                    type: "keyword",
                   },
                   userUuid: {
-                    type: "text",
-                    fields: {
-                      keyword: {
-                        type: "keyword",
-                        ignore_above: 256,
-                      },
-                    },
+                    type: "keyword",
                   },
                 },
               },
@@ -440,13 +373,7 @@ const indexSettings = {
           owner: {
             properties: {
               entityUuid: {
-                type: "text",
-                fields: {
-                  keyword: {
-                    type: "keyword",
-                    ignore_above: 256,
-                  },
-                },
+                type: "keyword",
               },
               firstName: {
                 type: "text",
@@ -1221,13 +1148,7 @@ const indexSettings = {
         },
       },
       entityUuid: {
-        type: "text",
-        fields: {
-          keyword: {
-            type: "keyword",
-            ignore_above: 256,
-          },
-        },
+        type: "keyword",
       },
       estateUuids: {
         type: "text",
@@ -1296,13 +1217,7 @@ const indexSettings = {
           ownedBy: {
             properties: {
               groupUuid: {
-                type: "text",
-                fields: {
-                  keyword: {
-                    type: "keyword",
-                    ignore_above: 256,
-                  },
-                },
+                type: "keyword",
               },
               moreGroupUuids: {
                 type: "text",
@@ -1323,13 +1238,7 @@ const indexSettings = {
                 },
               },
               subsidiaryUuid: {
-                type: "text",
-                fields: {
-                  keyword: {
-                    type: "keyword",
-                    ignore_above: 256,
-                  },
-                },
+                type: "keyword",
               },
               userUuid: {
                 type: "text",
@@ -1357,33 +1266,25 @@ const indexSettings = {
         },
       },
       tenantUuid: {
-        type: "text",
-        fields: {
-          keyword: {
-            type: "keyword",
-            ignore_above: 256,
-          },
-        },
+        type: "keyword",
       },
       uuid: {
-        type: "text",
-        fields: {
-          keyword: {
-            type: "keyword",
-            ignore_above: 256,
-          },
-        },
+        type: "keyword",
       },
     },
   },
 };
 
-async function createHistoryIndex() {
+async function createOptimizedHistoryIndex() {
+  console.time("Creating Index");
   const response = await client.indices.create({
-    index: indexName,
+    index,
     body: indexSettings,
   });
+  console.timeEnd("Creating Index");
 
-  console.log(`Index "${indexName}" created successfully!`);
+  console.log(`Index "${index}" created successfully!`);
   console.log(response);
 }
+
+createOptimizedHistoryIndex();
