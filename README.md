@@ -52,7 +52,11 @@ docker exec -it opensearch-benchmark /bin/bash
 opensearch-benchmark list workloads --workload-path=</path/to/workload/>
 ```
 
-opensearch-benchmark execute-test --pipeline="benchmark-only" --workload-path=./ --target-host=http://opensearch-node1:9200
+## Excecute Benchmark Workload
+
+```sh
+opensearch-benchmark execute-test --pipeline="benchmark-only" --workload-path=</path/to/workload/> --target-host=http://opensearch-node1:9200
+```
 
 ## Get uncompressed-bytes for workload.json
 
