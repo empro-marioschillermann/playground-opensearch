@@ -1,0 +1,25 @@
+{
+  "settings": {
+    "index.number_of_replicas": 0
+  },
+  "mappings": {
+    "dynamic": "strict",
+    "properties": {
+      "title": {
+        "type": "text"
+      },
+      "director": {
+        "type": "text"
+      },
+      "revenue": {
+        "type": "text"
+      },
+      "rating": {
+        "type": "text"
+      },
+      "image_url": {
+        "type": "text"
+      }
+    }
+  }
+}

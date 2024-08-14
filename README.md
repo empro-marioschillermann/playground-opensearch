@@ -37,3 +37,39 @@ I have set all fields with a UUID to type keyword.
 2. index-documents-activity-bulk.ts - 324.612ms - 28% faster then auto generated index
 
 store.size: 9.5mb
+
+# Benchmark
+
+## Connect to docker container
+
+```sh
+docker exec -it opensearch-benchmark /bin/bash
+```
+
+## Check workload is functional
+
+```sh
+opensearch-benchmark list workloads --workload-path=</path/to/workload/>
+```
+
+opensearch-benchmark execute-test --pipeline="benchmark-only" --workload-path=./ --target-host=http://opensearch-node1:9200
+
+## Get uncompressed-bytes for workload.json
+
+### macOS
+
+```sh
+stat -f %z <index>-documents.json
+```
+
+### Linux
+
+```sh
+stat -c %s <index>-documents.json
+```
+
+### Alternatively
+
+```sh
+ls -lrt | grep <index>-documents.json
+```
